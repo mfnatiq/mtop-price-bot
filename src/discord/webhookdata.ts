@@ -26,13 +26,19 @@ interface SectionData {
 // all colours taken from sampling each image (in authorIconUrl) with https://imagecolorpicker.com/en
 const sectionsData: SectionData[] = [
   {
+    colour: '#6277c3',
+    authorIconUrl:
+      'https://www.freepnglogos.com/uploads/discord-logo-png/discord-logo-logodownload-download-logotipos-1.png',
+    authorName: 'If you like what you see...',
+  },
+  {
     colour: '#3ddacf',
     authorIconUrl:
       'https://s2.coinmarketcap.com/static/img/coins/200x200/3945.png',
     authorName: 'Token Prices',
   },
   {
-    colour: '#f6c83a',
+    colour: '#fece82',
     authorIconUrl:
       'https://cdn.discordapp.com/icons/944512241900875837/5a17736adb172be4756a28371885bf56.webp?size=240',
     authorName: 'NFTKEY Data',
@@ -90,7 +96,7 @@ export const updateRealtimeChannelPriceData = async (discordClient: Client) => {
 const getEmbedMessage = async (): Promise<MessageEmbed[]> => {
   return [
     new MessageEmbed()
-      .setDescription(priceResponse)
+      .setDescription('Rain fnatiq!')
       .setAuthor({
         name: sectionsData[0].authorName,
         iconURL: sectionsData[0].authorIconUrl,
@@ -98,11 +104,19 @@ const getEmbedMessage = async (): Promise<MessageEmbed[]> => {
       .setColor(sectionsData[0].colour),
 
     new MessageEmbed()
-      .setDescription(nftFloorResponse || 'Fetching NFTs data...')
+      .setDescription(priceResponse)
       .setAuthor({
         name: sectionsData[1].authorName,
         iconURL: sectionsData[1].authorIconUrl,
       })
       .setColor(sectionsData[1].colour),
+
+    new MessageEmbed()
+      .setDescription(nftFloorResponse || 'Fetching NFTs data...')
+      .setAuthor({
+        name: sectionsData[2].authorName,
+        iconURL: sectionsData[2].authorIconUrl,
+      })
+      .setColor(sectionsData[2].colour),
   ];
 };
