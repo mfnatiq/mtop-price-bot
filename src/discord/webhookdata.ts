@@ -1,19 +1,8 @@
 import { Client, ColorResolvable, MessageEmbed } from 'discord.js';
 import {
-  avgPriceSoldOneCached,
-  earningSpeedsArr,
-  getPrice,
   numMinutesCache,
-  numSoldCached,
-  priceHVILLEperONE,
-  priceHVILLEperUSD,
-  priceONEperUSD,
-  totalTransactionValueUsdCached,
-  totalTransactionValueOneCached,
-  transactionValue30dUsdCached,
-  transactionValue30dOneCached,
-  transactionValue7dUsdCached,
-  transactionValue7dOneCached,
+  nftFloorResponse,
+  priceResponse,
 } from '../replies/price.command';
 // import { getCLNYStats } from '../replies/stats.command';
 import {
@@ -44,20 +33,9 @@ const sectionsData: SectionData[] = [
   },
   {
     colour: '#f6c83a',
-    authorIconUrl: 'https://app.wenlambo.one/images/logo.png',
-    authorName: 'Lambos Data (~2min delayed)',
-  },
-  {
-    colour: '#ffffff',
     authorIconUrl:
-      'https://dashboard-assets.dappradar.com/document/6406/nftkey-dapp-marketplaces-ethereum-logo-166x166_50ad814bfd3ab7dcdd1bba4090f83a15.png',
-    authorName: 'Transactions Data',
-  },
-  {
-    colour: '#e42d06',
-    authorIconUrl:
-      'https://aws1.discourse-cdn.com/standard17/uploads/marscolony/original/1X/73f77e8e1a03287b99217692129344d4441f8bf3.png',
-    authorName: 'HVILLE Statistics',
+      'https://cdn.discordapp.com/icons/944512241900875837/5a17736adb172be4756a28371885bf56.webp?size=240',
+    authorName: 'NFTKEY Data',
   },
 ];
 
@@ -110,21 +88,9 @@ export const updateRealtimeChannelPriceData = async (discordClient: Client) => {
 };
 
 const getEmbedMessage = async (): Promise<MessageEmbed[]> => {
-  const priceData = await getPrice();
-  // const statsData = await getCLNYStats();
-  const statsData = '';
-
-  const priceDataSections = priceData.split('\n\n');
-
-  const messages = [
+  return [
     new MessageEmbed()
-      .setDescription(
-        priceHVILLEperONE === 0 ||
-          priceONEperUSD === 0 ||
-          priceHVILLEperUSD === 0
-          ? 'Fetching prices...'
-          : priceDataSections[0]
-      )
+      .setDescription(priceResponse)
       .setAuthor({
         name: sectionsData[0].authorName,
         iconURL: sectionsData[0].authorIconUrl,
@@ -132,47 +98,11 @@ const getEmbedMessage = async (): Promise<MessageEmbed[]> => {
       .setColor(sectionsData[0].colour),
 
     new MessageEmbed()
-      .setDescription(
-        (earningSpeedsArr.length > 0 && priceDataSections[1]) ||
-          'Fetching lambos data...'
-      )
+      .setDescription(nftFloorResponse || 'Fetching NFTs data...')
       .setAuthor({
         name: sectionsData[1].authorName,
         iconURL: sectionsData[1].authorIconUrl,
       })
       .setColor(sectionsData[1].colour),
-
-    new MessageEmbed()
-      .setDescription(
-        (totalTransactionValueUsdCached > 0 &&
-          totalTransactionValueOneCached > 0 &&
-          transactionValue7dUsdCached > 0 &&
-          transactionValue7dOneCached > 0 &&
-          transactionValue30dUsdCached > 0 &&
-          transactionValue30dOneCached > 0 &&
-          numSoldCached > 0 &&
-          avgPriceSoldOneCached > 0 &&
-          priceDataSections[2]) ||
-          'Fetching transactions data...'
-      )
-      .setAuthor({
-        name: sectionsData[2].authorName,
-        iconURL: sectionsData[2].authorIconUrl,
-      })
-      .setColor(sectionsData[2].colour),
   ];
-
-  if (statsData !== '') {
-    messages.push(
-      new MessageEmbed()
-        .setDescription(statsData)
-        .setAuthor({
-          name: sectionsData[3].authorName,
-          iconURL: sectionsData[3].authorIconUrl,
-        })
-        .setColor(sectionsData[3].colour)
-    );
-  }
-
-  return messages;
 };

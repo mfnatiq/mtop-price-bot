@@ -1,11 +1,9 @@
-export interface AttributeData {
-  speed: number;
-  unlocked: number;
-  locked: number;
-  lockedInterest: number;
-  pitCrew: number;
-  crewChief: number;
-  mechanic: number;
-  gasman: number;
-  tireChanger: number;
+export interface NftkeyCollection {
+  name: string;
+  floor: number;
+}
+
+export interface TokenPairContractWithName {
+  contract: string;
+  name: string;
 }
