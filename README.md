@@ -11,8 +11,8 @@ export const DISCORD_REALTIME_CHANNEL_WEBHOOK_ID = 'ddd';    // see below for ge
 export const DISCORD_REALTIME_CHANNEL_WEBHOOK_TOKEN = 'eee';
 export const DISCORD_REALTIME_CHANNEL_WEBHOOK_MESSAGE_ID = 'fff';
 
-export const BOT_DISPLAY_NAME = 'WenLambo Bot';
-export const BOT_AVATAR_URL = 'https://app.wenlambo.one/images/logo.png';
+export const BOT_DISPLAY_NAME = 'Mtop Bot';
+export const BOT_AVATAR_URL = 'https://cdn.discordapp.com/icons/944512241900875837/5a17736adb172be4756a28371885bf56.webp?size=240';
 ```
 
 where `DISCORD_REALTIME_CHANNEL_WEBHOOK_MESSAGE_ID` should be the message ID of a single message in a locked voice channel (i.e. create a message there first)
