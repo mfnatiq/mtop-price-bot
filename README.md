@@ -1,4 +1,4 @@
-**Work In Progress**
+Last Updated: 07 May 2022
 
 ### Requirements
 
@@ -16,6 +16,15 @@ export const BOT_AVATAR_URL = 'https://cdn.discordapp.com/icons/9445122419008758
 ```
 
 where `DISCORD_REALTIME_CHANNEL_WEBHOOK_MESSAGE_ID` should be the message ID of a single message in a locked voice channel (i.e. create a message there first)
+
+### Scaling to more tokens / NFTs
+
+Append to `tokenPairOneContracts` (for tokens - contract address is the important one, name is just for displaying in discord) and / or `nftkeyInterestedCollectionsByFullName` (for nfts in NFTKEY - requires their _exact_ name in NFTKEY) in `constants.ts`
+
+#### Current Limitations
+
+1. Only works for Harmony tokens / NFT collections
+2. NFT collections currently only fetched from NFTKEY
 
 ### Discord Bot
 
