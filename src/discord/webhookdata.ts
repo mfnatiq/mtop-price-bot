@@ -49,6 +49,8 @@ const sectionsData: SectionData[] = [
   },
 ];
 
+import * as fs from 'fs';
+
 export const updateRealtimeChannelPriceData = async (discordClient: Client) => {
   try {
     const realtimeChannel = discordClient.channels.cache.get(
@@ -60,13 +62,14 @@ export const updateRealtimeChannelPriceData = async (discordClient: Client) => {
         DISCORD_REALTIME_CHANNEL_WEBHOOK_TOKEN
       );
 
-      let messageId = '';
       try {
         (async () => {
           while (true) {
             const embedMessage = await getEmbedMessage();
+
+            const fileMsgId = fs.readFileSync('src/messageId.txt', 'utf8');
             const existingMessageId =
-              messageId || DISCORD_REALTIME_CHANNEL_WEBHOOK_MESSAGE_ID;
+              fileMsgId || DISCORD_REALTIME_CHANNEL_WEBHOOK_MESSAGE_ID;
 
             try {
               await webhook.editMessage(existingMessageId, {
@@ -88,7 +91,7 @@ export const updateRealtimeChannelPriceData = async (discordClient: Client) => {
                   avatarURL: avatarUrl,
                   embeds: embedMessage,
                 });
-                messageId = newMessage.id;
+                fs.writeFileSync('src/messageId.txt', newMessage.id);
               }
             }
           }
