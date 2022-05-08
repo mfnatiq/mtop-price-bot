@@ -4,17 +4,22 @@ import {
   nftFloorResponse,
   priceResponse,
 } from '../replies/price.command';
-// import { getCLNYStats } from '../replies/stats.command';
+import {
+  DISCORD_REALTIME_CHANNEL_ID,
+  DISCORD_REALTIME_CHANNEL_WEBHOOK_ID,
+  DISCORD_REALTIME_CHANNEL_WEBHOOK_TOKEN,
+} from '../discordBotInit';
 
-export const DISCORD_REALTIME_CHANNEL_ID = process.env.DISCORD_REALTIME_CHANNEL_ID
-export const DISCORD_REALTIME_CHANNEL_WEBHOOK_ID = process.env.DISCORD_REALTIME_CHANNEL_WEBHOOK_ID
-export const DISCORD_REALTIME_CHANNEL_WEBHOOK_MESSAGE_ID = process.env.DISCORD_REALTIME_CHANNEL_WEBHOOK_MESSAGE_ID
-export const DISCORD_REALTIME_CHANNEL_WEBHOOK_TOKEN = process.env.DISCORD_REALTIME_CHANNEL_WEBHOOK_TOKEN
-export const BOT_DISPLAY_NAME = process.env.BOT_DISPLAY_NAME
-export const BOT_AVATAR_URL = process.env.BOT_AVATAR_URL
+import dotenv from 'dotenv';
+dotenv.config();
 
-const username = BOT_DISPLAY_NAME || 'WenLambo Bot';
-const avatarUrl = BOT_AVATAR_URL || 'https://app.wenlambo.one/images/logo.png';
+const DISCORD_REALTIME_CHANNEL_WEBHOOK_MESSAGE_ID =
+  process.env.DISCORD_REALTIME_CHANNEL_WEBHOOK_MESSAGE_ID;
+
+const username = process.env.BOT_DISPLAY_NAME || 'Mtop Price Bot';
+const avatarUrl =
+  process.env.BOT_AVATAR_URL ||
+  'https://cdn.discordapp.com/icons/944512241900875837/5a17736adb172be4756a28371885bf56.webp?size=240';
 
 interface SectionData {
   colour: ColorResolvable;
@@ -55,12 +60,16 @@ export const updateRealtimeChannelPriceData = async (discordClient: Client) => {
         DISCORD_REALTIME_CHANNEL_WEBHOOK_TOKEN
       );
 
+      let messageId = '';
       try {
         (async () => {
           while (true) {
+            const embedMessage = await getEmbedMessage();
+            const existingMessageId =
+              messageId || DISCORD_REALTIME_CHANNEL_WEBHOOK_MESSAGE_ID;
+
             try {
-              let embedMessage = await getEmbedMessage();
-              webhook.editMessage(DISCORD_REALTIME_CHANNEL_WEBHOOK_MESSAGE_ID, {
+              await webhook.editMessage(existingMessageId, {
                 embeds: embedMessage,
               });
 
@@ -70,6 +79,17 @@ export const updateRealtimeChannelPriceData = async (discordClient: Client) => {
             } catch (err) {
               console.log('webhook edit message error');
               console.log(err);
+
+              try {
+                await webhook.fetchMessage(existingMessageId);
+              } catch (fetchMessageErr) {
+                const newMessage = await webhook.send({
+                  username: username,
+                  avatarURL: avatarUrl,
+                  embeds: embedMessage,
+                });
+                messageId = newMessage.id;
+              }
             }
           }
         })();

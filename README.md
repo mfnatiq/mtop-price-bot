@@ -10,7 +10,8 @@ DISCORD_REALTIME_CHANNEL_ID=ccc    // channel should be a TEXT_CHANNEL; can be o
 DISCORD_REALTIME_CHANNEL_WEBHOOK_ID=ddd    // see below for getting this info from discord
 DISCORD_REALTIME_CHANNEL_WEBHOOK_TOKEN=eee
 DISCORD_REALTIME_CHANNEL_WEBHOOK_MESSAGE_ID=fff
-BOT_DISPLAY_NAME=Mtop Bot';BOT_AVATAR_URL=https://cdn.discordapp.com/icons/944512241900875837/5a17736adb172be4756a28371885bf56.webp?size=240
+BOT_DISPLAY_NAME=Mtop Bot
+BOT_AVATAR_URL=https://cdn.discordapp.com/icons/944512241900875837/5a17736adb172be4756a28371885bf56.webp?size=240
 ```
 
 where `DISCORD_REALTIME_CHANNEL_WEBHOOK_MESSAGE_ID` should be the message ID of a single message in a locked voice channel (i.e. create a message there first)
