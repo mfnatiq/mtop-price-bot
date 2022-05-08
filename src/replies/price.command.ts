@@ -64,7 +64,7 @@ ${tokenResponses}`.trim();
 // nftkey floor price
 (async () => {
   while (true) {
-    let tempNftFloorResponse = '';
+    let tempNftFloorResponse: string[] = [];
     const nftkeyGraphqlEndpoint = 'https://nftkey.app/graphql';
     const nftkeyQuery =
       'query GetERC721Collections {\n  erc721Collections {\n    name\n  floor\n  }\n}\n';
@@ -88,12 +88,14 @@ ${tokenResponses}`.trim();
         for (const c of collectionsData) {
           const { name, floor } = c;
           if (nftkeyInterestedCollectionsByFullName.includes(name)) {
-            tempNftFloorResponse += `${name} floor: **${floor} ONE**\n`;
+            tempNftFloorResponse.push(`${name} floor: **${floor} ONE**`);
           }
         }
       }
 
-      nftFloorResponse = tempNftFloorResponse;
+      nftFloorResponse = tempNftFloorResponse
+        .sort((a, b) => a.localeCompare(b))
+        .join('\n');
     } catch (error) {
       console.log('nftkey error', error);
     }

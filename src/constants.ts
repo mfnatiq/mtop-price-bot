@@ -62,7 +62,7 @@ export const tokenPairOneContracts: TokenPairContractWithName[] = [
     name: 'FUNDS',
     contract: '0x34bba7f4a1fe053b92f59de9501ea051693b81c1',
   },
-];
+].sort((a, b) => a.name.localeCompare(b.name));
 
 export const nftkeyInterestedCollectionsByFullName = [
   'MarsColony',

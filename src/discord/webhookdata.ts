@@ -35,13 +35,13 @@ const sectionsData: SectionData[] = [
     colour: '#3ddacf',
     authorIconUrl:
       'https://s2.coinmarketcap.com/static/img/coins/200x200/3945.png',
-    authorName: 'Token Prices',
+    authorName: 'Token Prices (A-Z except ONE)',
   },
   {
     colour: '#fece82',
     authorIconUrl:
       'https://cdn.discordapp.com/icons/944512241900875837/5a17736adb172be4756a28371885bf56.webp?size=240',
-    authorName: 'NFTKEY Data',
+    authorName: 'NFTKEY Data (A-Z)',
   },
 ];
 
