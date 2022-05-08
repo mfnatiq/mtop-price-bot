@@ -62,6 +62,14 @@ export const tokenPairOneContracts: TokenPairContractWithName[] = [
     name: 'FUNDS',
     contract: '0x34bba7f4a1fe053b92f59de9501ea051693b81c1',
   },
+  {
+    name: 'SPEED',
+    contract: '0xd90db16cf3d440585d22334714fad4999a84e681',
+  },
+  {
+    name: 'JOC',
+    contract: '0x7e506951f196bc4504ab4557bb856d1043497c0b',
+  },
 ];
 
 export const nftkeyInterestedCollectionsByFullName = [
