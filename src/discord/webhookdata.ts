@@ -5,14 +5,13 @@ import {
   priceResponse,
 } from '../replies/price.command';
 // import { getCLNYStats } from '../replies/stats.command';
-import {
-  DISCORD_REALTIME_CHANNEL_ID,
-  DISCORD_REALTIME_CHANNEL_WEBHOOK_ID,
-  DISCORD_REALTIME_CHANNEL_WEBHOOK_MESSAGE_ID,
-  DISCORD_REALTIME_CHANNEL_WEBHOOK_TOKEN,
-  BOT_DISPLAY_NAME,
-  BOT_AVATAR_URL,
-} from '../secrets';
+
+export const DISCORD_REALTIME_CHANNEL_ID = process.env.DISCORD_REALTIME_CHANNEL_ID
+export const DISCORD_REALTIME_CHANNEL_WEBHOOK_ID = process.env.DISCORD_REALTIME_CHANNEL_WEBHOOK_ID
+export const DISCORD_REALTIME_CHANNEL_WEBHOOK_MESSAGE_ID = process.env.DISCORD_REALTIME_CHANNEL_WEBHOOK_MESSAGE_ID
+export const DISCORD_REALTIME_CHANNEL_WEBHOOK_TOKEN = process.env.DISCORD_REALTIME_CHANNEL_WEBHOOK_TOKEN
+export const BOT_DISPLAY_NAME = process.env.BOT_DISPLAY_NAME
+export const BOT_AVATAR_URL = process.env.BOT_AVATAR_URL
 
 const username = BOT_DISPLAY_NAME || 'WenLambo Bot';
 const avatarUrl = BOT_AVATAR_URL || 'https://app.wenlambo.one/images/logo.png';

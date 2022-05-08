@@ -2,12 +2,12 @@ import 'reflect-metadata';
 import { Intents, Interaction, Message } from 'discord.js';
 import { Client } from 'discordx';
 import { dirname, importx } from '@discordx/importer';
-import {
-  DISCORD_BOT_TOKEN,
-  DISCORD_REALTIME_CHANNEL_ID,
-  DISCORD_REALTIME_CHANNEL_WEBHOOK_ID,
-  DISCORD_REALTIME_CHANNEL_WEBHOOK_TOKEN,
-} from './secrets';
+
+export const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN
+export const DISCORD_REALTIME_CHANNEL_ID = process.env.DISCORD_REALTIME_CHANNEL_ID
+export const DISCORD_REALTIME_CHANNEL_WEBHOOK_ID = process.env.DISCORD_REALTIME_CHANNEL_WEBHOOK_ID
+export const DISCORD_REALTIME_CHANNEL_WEBHOOK_TOKEN = process.env.DISCORD_REALTIME_CHANNEL_WEBHOOK_TOKEN
+
 import { updateRealtimeChannelPriceData } from './discord/webhookdata';
 
 const discordClient = new Client({
