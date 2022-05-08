@@ -70,6 +70,18 @@ export const tokenPairOneContracts: TokenPairContractWithName[] = [
     name: 'JOC',
     contract: '0x7e506951f196bc4504ab4557bb856d1043497c0b',
   },
+  {
+    name: 'ONEMOON',
+    contract: '0x723faa3482375a19bcd38a863552b1e1cf884f8a',
+  },
+  {
+    name: 'FUZZ',
+    contract: '0x6ef6c5f316f70b9fcefb753a4b004b8ee9506eb1',
+  },
+  {
+    name: 'HPLAY',
+    contract: '0x7a234cc13d03e9b9cc1abeeda29b0977855a1e99',
+  },
 ];
 
 export const nftkeyInterestedCollectionsByFullName = [
