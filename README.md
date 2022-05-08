@@ -2,15 +2,15 @@ Last Updated: 07 May 2022
 
 ### Requirements
 
-1. Create a `.env` file in the root folder with the following:
+1. Create an `.env` file in the root folder with the following:
 
 ```
-DISCORD_BOT_TOKEN = 'bbb';
-DISCORD_REALTIME_CHANNEL_ID = 'ccc';    // channel should be a TEXT_CHANNEL; can be obtained by right-clicking channel and selecting "Copy ID"
-DISCORD_REALTIME_CHANNEL_WEBHOOK_ID = 'ddd';    // see below for getting this info from discord
-DISCORD_REALTIME_CHANNEL_WEBHOOK_TOKEN = 'eee';
-DISCORD_REALTIME_CHANNEL_WEBHOOK_MESSAGE_ID = 'fff';
-BOT_DISPLAY_NAME = 'Mtop Bot';BOT_AVATAR_URL = 'https://cdn.discordapp.com/icons/944512241900875837/5a17736adb172be4756a28371885bf56.webp?size=240';
+DISCORD_BOT_TOKEN=bbb
+DISCORD_REALTIME_CHANNEL_ID=ccc    // channel should be a TEXT_CHANNEL; can be obtained by right-clicking channel and selecting "Copy ID"
+DISCORD_REALTIME_CHANNEL_WEBHOOK_ID=ddd    // see below for getting this info from discord
+DISCORD_REALTIME_CHANNEL_WEBHOOK_TOKEN=eee
+DISCORD_REALTIME_CHANNEL_WEBHOOK_MESSAGE_ID=fff
+BOT_DISPLAY_NAME=Mtop Bot';BOT_AVATAR_URL=https://cdn.discordapp.com/icons/944512241900875837/5a17736adb172be4756a28371885bf56.webp?size=240
 ```
 
 where `DISCORD_REALTIME_CHANNEL_WEBHOOK_MESSAGE_ID` should be the message ID of a single message in a locked voice channel (i.e. create a message there first)
@@ -56,6 +56,7 @@ RUN yarn
 RUN yarn build
 CMD ["yarn" , "start"]
 ```
+
 2. Build the Docker image
 
 `docker buildx build --platform linux/amd64 -t mtop-bot-poc:v0.1.0 .`
