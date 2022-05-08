@@ -118,7 +118,7 @@ export const updateRealtimeChannelPriceData = async (discordClient: Client) => {
 const getEmbedMessage = async (): Promise<MessageEmbed[]> => {
   return [
     new MessageEmbed()
-      .setDescription('Tip fnatiq!')
+      .setDescription('Tip fnatiq & sznal!')
       .setAuthor({
         name: sectionsData[0].authorName,
         iconURL: sectionsData[0].authorIconUrl,
