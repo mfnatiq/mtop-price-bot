@@ -35,7 +35,7 @@ export interface PlotEarning {
       .then((respArr) => {
         const priceONEperUSD: number = respArr[0].data['harmony']['usd'];
 
-        let tokenResponses = '';
+        const tokenResponses: string[] = [];
         for (
           let tpIndex = 0;
           tpIndex < tokenPairOneContracts.length;
@@ -44,12 +44,14 @@ export interface PlotEarning {
           const tp = tokenPairOneContracts[tpIndex];
           const pairData = respArr[tpIndex + 1].data['pair'];
 
-          tokenResponses += `1 ${tp.name} \\= **${pairData['priceNative']} ONE** \\= **$${pairData['priceUsd']}** (${pairData['priceChange']['h24']}% last 24h)\n`;
+          tokenResponses.push(
+            `1 ${tp.name} \\= **${pairData['priceNative']} ONE** \\= **$${pairData['priceUsd']}** (${pairData['priceChange']['h24']}% last 24h)`
+          );
         }
 
         priceResponse = `
 1 ONE \\= **$${priceONEperUSD.toFixed(3)}**
-${tokenResponses}`.trim();
+${tokenResponses.sort((a, b) => a.localeCompare(b)).join('\n')}`.trim();
       })
       .catch((err) => {
         console.log('internal pricing error', err);
