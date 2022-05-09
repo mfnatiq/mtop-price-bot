@@ -19,5 +19,5 @@
     "outDir": "build",
     "rootDir": "src"
   },
-  "include": ["src"]
+  "include": ["src", "src/messageId.json"]
 }

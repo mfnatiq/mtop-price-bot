@@ -50,6 +50,11 @@ const sectionsData: SectionData[] = [
 ];
 
 import * as fs from 'fs';
+import path from 'path';
+const filePath = path.join(process.cwd(), 'src/messageId.json');
+interface MessageId {
+  messageId: string;
+}
 
 export const updateRealtimeChannelPriceData = async (discordClient: Client) => {
   try {
@@ -67,14 +72,21 @@ export const updateRealtimeChannelPriceData = async (discordClient: Client) => {
           while (true) {
             const embedMessage = await getEmbedMessage();
 
-            const fileMsgId = fs.readFileSync('src/messageId.txt', 'utf8');
+            const fileMsgId: MessageId = await JSON.parse(
+              fs.readFileSync(filePath, 'utf8')
+            );
             const existingMessageId =
-              fileMsgId || DISCORD_REALTIME_CHANNEL_WEBHOOK_MESSAGE_ID;
+              (fileMsgId && fileMsgId.messageId) ||
+              DISCORD_REALTIME_CHANNEL_WEBHOOK_MESSAGE_ID;
 
             try {
               await webhook.editMessage(existingMessageId, {
                 embeds: embedMessage,
               });
+              const fileMsgIdToWrite: MessageId = {
+                messageId: existingMessageId,
+              };
+              fs.writeFileSync(filePath, JSON.stringify(fileMsgIdToWrite));
 
               await new Promise((resolve) =>
                 setTimeout(resolve, 1000 * 60 * numMinutesCache)
@@ -91,7 +103,10 @@ export const updateRealtimeChannelPriceData = async (discordClient: Client) => {
                   avatarURL: avatarUrl,
                   embeds: embedMessage,
                 });
-                fs.writeFileSync('src/messageId.txt', newMessage.id);
+                const fileMsgIdToWrite: MessageId = {
+                  messageId: newMessage.id,
+                };
+                fs.writeFileSync(filePath, JSON.stringify(fileMsgIdToWrite));
               }
             }
           }
