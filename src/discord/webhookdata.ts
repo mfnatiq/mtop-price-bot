@@ -51,7 +51,7 @@ const sectionsData: SectionData[] = [
 
 import * as fs from 'fs';
 import path from 'path';
-const filePath = path.join(process.cwd(), 'src/messageId.json');
+const filePath = path.join(process.cwd(), 'build/messageId.json');
 interface MessageId {
   messageId: string;
 }
