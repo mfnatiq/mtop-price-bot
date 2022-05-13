@@ -50,13 +50,14 @@ export interface PlotEarning {
           const priceChange: number = pairData['priceChange']['h24'];
 
           const tokenDataDisplayNo24hChange = `1 ${tp.name} \\= **${pairData['priceNative']} ONE** \\= **$${pairData['priceUsd']}**`;
-          const tokenDataDisplay = `${tokenDataDisplayNo24hChange} (${priceChange}% last 24h)`;
+          const tokenDataDisplayNo24hChangeWithSwap = `${tokenDataDisplayNo24hChange} ([swap](${tp.swap}))`;
+          const tokenDataDisplay = `${tokenDataDisplayNo24hChange} (${priceChange}% last 24h, [swap](${tp.swap}))`;
           if (priceChange > 0) {
             tokenGainers.push(tokenDataDisplay);
           } else if (priceChange < 0) {
             tokenLosers.push(tokenDataDisplay);
           } else {
-            tokenNoChange.push(tokenDataDisplayNo24hChange);
+            tokenNoChange.push(tokenDataDisplayNo24hChangeWithSwap);
           }
         }
 
