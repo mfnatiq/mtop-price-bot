@@ -24,7 +24,7 @@ export interface PlotEarning {
     axios
       .all([
         axios.get(
-          'https://api.coingecko.com/api/v3/simple/price?ids=harmony&vs_currencies=usd'
+          'https://api.coingecko.com/api/v3/simple/price?ids=harmony&vs_currencies=usd&include_24hr_change=true'
         ),
         ...tokenPairOneContracts.map((tp) =>
           axios.get(
@@ -34,6 +34,8 @@ export interface PlotEarning {
       ])
       .then((respArr) => {
         const priceONEperUSD: number = respArr[0].data['harmony']['usd'];
+        const priceChangeONEperUSD: number =
+          respArr[0].data['harmony']['usd_24h_change'];
 
         // const tokenResponses: string[] = [];
         const tokenGainers: string[] = [];
@@ -47,22 +49,28 @@ export interface PlotEarning {
           const tp = tokenPairOneContracts[tpIndex];
           const pairData = respArr[tpIndex + 1].data['pair'];
 
-          const priceChange: number = pairData['priceChange']['h24'];
+          try {
+            const priceChange: number = pairData['priceChange']['h24'];
 
-          const tokenDataDisplayNo24hChange = `1 ${tp.name} \\= **${pairData['priceNative']} ONE** \\= **$${pairData['priceUsd']}**`;
-          const tokenDataDisplayNo24hChangeWithSwap = `${tokenDataDisplayNo24hChange} ([swap](${tp.swap}))`;
-          const tokenDataDisplay = `${tokenDataDisplayNo24hChange} (${priceChange}% last 24h, [swap](${tp.swap}))`;
-          if (priceChange > 0) {
-            tokenGainers.push(tokenDataDisplay);
-          } else if (priceChange < 0) {
-            tokenLosers.push(tokenDataDisplay);
-          } else {
-            tokenNoChange.push(tokenDataDisplayNo24hChangeWithSwap);
+            const tokenDataDisplayNo24hChange = `1 ${tp.name} \\= **${pairData['priceNative']} ONE** \\= **$${pairData['priceUsd']}**`;
+            const tokenDataDisplayNo24hChangeWithSwap = `${tokenDataDisplayNo24hChange} ([swap](${tp.swap}))`;
+            const tokenDataDisplay = `${tokenDataDisplayNo24hChange} (${priceChange}% last 24h, [swap](${tp.swap}))`;
+            if (priceChange > 0) {
+              tokenGainers.push(tokenDataDisplay);
+            } else if (priceChange < 0) {
+              tokenLosers.push(tokenDataDisplay);
+            } else {
+              tokenNoChange.push(tokenDataDisplayNo24hChangeWithSwap);
+            }
+          } catch (tokenErr) {
+            console.log('error fetching dexscreener data for', tp, pairData);
           }
         }
 
         priceResponse = `
-1 ONE \\= **$${priceONEperUSD.toFixed(3)}**
+1 ONE \\= **$${priceONEperUSD.toFixed(3)}** (${priceChangeONEperUSD.toFixed(
+          2
+        )}% last 24h)
 ${
   tokenGainers.length > 0
     ? `\n**GAINERS:**
