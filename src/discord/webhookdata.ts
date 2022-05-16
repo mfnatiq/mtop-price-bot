@@ -4,18 +4,22 @@ import {
   nftFloorResponse,
   priceResponse,
 } from '../replies/price.command';
-// import { getCLNYStats } from '../replies/stats.command';
 import {
   DISCORD_REALTIME_CHANNEL_ID,
   DISCORD_REALTIME_CHANNEL_WEBHOOK_ID,
-  DISCORD_REALTIME_CHANNEL_WEBHOOK_MESSAGE_ID,
   DISCORD_REALTIME_CHANNEL_WEBHOOK_TOKEN,
-  BOT_DISPLAY_NAME,
-  BOT_AVATAR_URL,
-} from '../secrets';
+} from '../discordBotInit';
 
-const username = BOT_DISPLAY_NAME || 'WenLambo Bot';
-const avatarUrl = BOT_AVATAR_URL || 'https://app.wenlambo.one/images/logo.png';
+import dotenv from 'dotenv';
+dotenv.config();
+
+const DISCORD_REALTIME_CHANNEL_WEBHOOK_MESSAGE_ID =
+  process.env.DISCORD_REALTIME_CHANNEL_WEBHOOK_MESSAGE_ID;
+
+const username = process.env.BOT_DISPLAY_NAME || 'Mtop Price Bot';
+const avatarUrl =
+  process.env.BOT_AVATAR_URL ||
+  'https://cdn.discordapp.com/icons/944512241900875837/5a17736adb172be4756a28371885bf56.webp?size=240';
 
 interface SectionData {
   colour: ColorResolvable;
@@ -45,6 +49,13 @@ const sectionsData: SectionData[] = [
   },
 ];
 
+import * as fs from 'fs';
+import path from 'path';
+const filePath = path.join(process.cwd(), 'build/messageId.json');
+interface MessageId {
+  messageId: string;
+}
+
 export const updateRealtimeChannelPriceData = async (discordClient: Client) => {
   try {
     const realtimeChannel = discordClient.channels.cache.get(
@@ -59,11 +70,23 @@ export const updateRealtimeChannelPriceData = async (discordClient: Client) => {
       try {
         (async () => {
           while (true) {
+            const embedMessage = await getEmbedMessage();
+
+            const fileMsgId: MessageId = await JSON.parse(
+              fs.readFileSync(filePath, 'utf8')
+            );
+            const existingMessageId =
+              (fileMsgId && fileMsgId.messageId) ||
+              DISCORD_REALTIME_CHANNEL_WEBHOOK_MESSAGE_ID;
+
             try {
-              let embedMessage = await getEmbedMessage();
-              webhook.editMessage(DISCORD_REALTIME_CHANNEL_WEBHOOK_MESSAGE_ID, {
+              await webhook.editMessage(existingMessageId, {
                 embeds: embedMessage,
               });
+              const fileMsgIdToWrite: MessageId = {
+                messageId: existingMessageId,
+              };
+              fs.writeFileSync(filePath, JSON.stringify(fileMsgIdToWrite));
 
               await new Promise((resolve) =>
                 setTimeout(resolve, 1000 * 60 * numMinutesCache)
@@ -71,6 +94,20 @@ export const updateRealtimeChannelPriceData = async (discordClient: Client) => {
             } catch (err) {
               console.log('webhook edit message error');
               console.log(err);
+
+              try {
+                await webhook.fetchMessage(existingMessageId);
+              } catch (fetchMessageErr) {
+                const newMessage = await webhook.send({
+                  username: username,
+                  avatarURL: avatarUrl,
+                  embeds: embedMessage,
+                });
+                const fileMsgIdToWrite: MessageId = {
+                  messageId: newMessage.id,
+                };
+                fs.writeFileSync(filePath, JSON.stringify(fileMsgIdToWrite));
+              }
             }
           }
         })();
@@ -96,7 +133,7 @@ export const updateRealtimeChannelPriceData = async (discordClient: Client) => {
 const getEmbedMessage = async (): Promise<MessageEmbed[]> => {
   return [
     new MessageEmbed()
-      .setDescription('Tip fnatiq!')
+      .setDescription('Tip fnatiq & sznal!')
       .setAuthor({
         name: sectionsData[0].authorName,
         iconURL: sectionsData[0].authorIconUrl,

@@ -2,17 +2,16 @@ Last Updated: 07 May 2022
 
 ### Requirements
 
-1. Create a `secrets.ts` in the `src` folder with the following:
+1. Create an `.env` file in the root folder with the following:
 
 ```
-export const DISCORD_BOT_TOKEN = 'bbb';
-export const DISCORD_REALTIME_CHANNEL_ID = 'ccc';    // channel should be a TEXT_CHANNEL; can be obtained by right-clicking channel and selecting "Copy ID"
-export const DISCORD_REALTIME_CHANNEL_WEBHOOK_ID = 'ddd';    // see below for getting this info from discord
-export const DISCORD_REALTIME_CHANNEL_WEBHOOK_TOKEN = 'eee';
-export const DISCORD_REALTIME_CHANNEL_WEBHOOK_MESSAGE_ID = 'fff';
-
-export const BOT_DISPLAY_NAME = 'Mtop Bot';
-export const BOT_AVATAR_URL = 'https://cdn.discordapp.com/icons/944512241900875837/5a17736adb172be4756a28371885bf56.webp?size=240';
+DISCORD_BOT_TOKEN=bbb
+DISCORD_REALTIME_CHANNEL_ID=ccc    // channel should be a TEXT_CHANNEL; can be obtained by right-clicking channel and selecting "Copy ID"
+DISCORD_REALTIME_CHANNEL_WEBHOOK_ID=ddd    // see below for getting this info from discord
+DISCORD_REALTIME_CHANNEL_WEBHOOK_TOKEN=eee
+DISCORD_REALTIME_CHANNEL_WEBHOOK_MESSAGE_ID=fff
+BOT_DISPLAY_NAME=Mtop Bot
+BOT_AVATAR_URL=https://cdn.discordapp.com/icons/944512241900875837/5a17736adb172be4756a28371885bf56.webp?size=240
 ```
 
 where `DISCORD_REALTIME_CHANNEL_WEBHOOK_MESSAGE_ID` should be the message ID of a single message in a locked voice channel (i.e. create a message there first)
@@ -34,7 +33,7 @@ Append to `tokenPairOneContracts` (for tokens - contract address is the importan
 
 #### Installation
 
-1. `npm i`
+1. `yarn`
 
 #### Configuring Discord Bot
 
@@ -44,3 +43,30 @@ Append to `tokenPairOneContracts` (for tokens - contract address is the importan
 ### Running the Application
 
 `yarn build / npm run build` then `yarn start / npm start`
+
+### Building the Application in Docker
+
+1. Create the Dockerfile
+
+```
+FROM 16-alpine3.14
+WORKDIR /app
+COPY package*.json /app/ && COPY yarn.lock /app/ && COPY tsconfig.json /app/
+COPY src /app/
+RUN yarn
+RUN yarn build
+CMD ["yarn" , "start"]
+```
+
+2. Build the Docker image
+
+`docker buildx build --platform linux/amd64 -t mtop-bot-poc:v0.1.0 .`
+
+3. Run the Docker image
+
+### Run the Application in Docker
+
+1. Make sure you have an .env file with correct values
+2. Run the docker image
+
+`docker run mtop-bot-poc:v0.1.0 --env-file .env`
