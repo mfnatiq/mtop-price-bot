@@ -95,7 +95,7 @@ export const tokenPairOneContracts: TokenPairContractWithName[] = [
   {
     name: 'FUZZ',
     contract: '0x6ef6c5f316f70b9fcefb753a4b004b8ee9506eb1',
-    swap: 'https://fuzz.fi/swap?outputCurrency=0x984b969a8e82f5ce1121ceb03f96ff5bb3f71fee',
+    swap: 'https://swap.fuzz.fi/swap?outputCurrency=0x984b969a8e82f5ce1121ceb03f96ff5bb3f71fee',
   },
   {
     name: 'HPLAY',
