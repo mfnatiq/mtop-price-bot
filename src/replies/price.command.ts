@@ -67,7 +67,8 @@ export interface PlotEarning {
           }
         }
 
-        priceResponse = `
+        priceResponse = `**Last Updated: ${new Date().toUTCString()}**
+
 1 ONE \\= **$${priceONEperUSD.toFixed(3)}** (${priceChangeONEperUSD.toFixed(
           2
         )}% last 24h)
@@ -134,9 +135,9 @@ ${tokenNoChange.sort((a, b) => a.localeCompare(b)).join('\n')}`
         }
       }
 
-      nftFloorResponse = tempNftFloorResponse
-        .sort((a, b) => a.localeCompare(b))
-        .join('\n');
+      nftFloorResponse = `**Last Updated: ${new Date().toUTCString()}**
+
+${tempNftFloorResponse.sort((a, b) => a.localeCompare(b)).join('\n')}`;
     } catch (error) {
       console.log('nftkey error', error);
     }
