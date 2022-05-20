@@ -135,7 +135,7 @@ ${tokenNoChange.sort((a, b) => a.localeCompare(b)).join('\n')}`
         }
       }
 
-      nftFloorResponse = `**Last Updated:  <t:${Math.floor(new Date().getTime() / 1000).toString()}>
+      nftFloorResponse = `**Last Updated:**  <t:${Math.floor(new Date().getTime() / 1000).toString()}>
 
 ${tempNftFloorResponse.sort((a, b) => a.localeCompare(b)).join('\n')}`;
     } catch (error) {
