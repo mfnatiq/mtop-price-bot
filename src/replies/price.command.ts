@@ -67,7 +67,7 @@ export interface PlotEarning {
           }
         }
 
-        priceResponse = `**Last Updated: ${new Date().toUTCString()}**
+        priceResponse = `**Last Updated:** <t:${Math.floor(new Date().getTime() / 1000).toString()}>
 
 1 ONE \\= **$${priceONEperUSD.toFixed(3)}** (${priceChangeONEperUSD.toFixed(
           2
@@ -135,7 +135,7 @@ ${tokenNoChange.sort((a, b) => a.localeCompare(b)).join('\n')}`
         }
       }
 
-      nftFloorResponse = `**Last Updated: ${new Date().toUTCString()}**
+      nftFloorResponse = `**Last Updated:  <t:${Math.floor(new Date().getTime() / 1000).toString()}>
 
 ${tempNftFloorResponse.sort((a, b) => a.localeCompare(b)).join('\n')}`;
     } catch (error) {
