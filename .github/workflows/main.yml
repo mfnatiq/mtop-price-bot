@@ -5,8 +5,8 @@ on:
     branches: [ main ]
     
 env:
-  IMAGE_NAME: 'ghcr.io/0x6d656d6573/${{ github.repository }}'
-  IMAGE_TAG: 'ghcr.io/0x6d656d6573/${{ github.repository }}:${{ github.sha }}'
+  IMAGE_NAME: 'ghcr.io/${{ github.repository }}'
+  IMAGE_TAG: 'ghcr.io/${{ github.repository }}:${{ github.sha }}'
 
 jobs:
 
