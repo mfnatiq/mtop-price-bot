@@ -38,5 +38,5 @@ jobs:
     - name: deploy to cluster
       uses: steebchen/kubectl@v2.0.0
       with: # defaults to latest kubectl binary version
-        config: ${{ secrets.KUBE_CONFIG_DATA }}
+        config: ${{ secrets.KUBE_CONFIG }}
         command: -n mtop set image --record deployment/mtop-price-bot mtop-price-bot=${{ env.IMAGE_TAG }}
