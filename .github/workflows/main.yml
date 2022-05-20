@@ -1,0 +1,42 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ main ]
+    
+env:
+  IMAGE_NAME: 'ghcr.io/0x6d656d6573/${{ github.repository }}'
+  IMAGE_TAG: 'ghcr.io/0x6d656d6573/${{ github.repository }}:${{ github.sha }}'
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+          
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Build and Push Docker Image
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        file: Dockerfile.dev
+        push: true
+        tags: |
+          ${{ env.IMAGE_TAG }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+      
+        
+    - name: deploy to cluster
+      uses: steebchen/kubectl@v2.0.0
+      with: # defaults to latest kubectl binary version
+        config: ${{ secrets.KUBE_CONFIG_DATA }}
+        command: -n mtop set image --record deployment/mtop-price-bot mtop-price-bot=${{ env.IMAGE_TAG }}
