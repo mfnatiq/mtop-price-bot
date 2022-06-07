@@ -4,7 +4,7 @@ export interface NftkeyCollection {
 }
 
 export interface TokenPairContractWithName {
-  contract: string;
+  pairContract: string;
   name: string;
   swap: string;
 }

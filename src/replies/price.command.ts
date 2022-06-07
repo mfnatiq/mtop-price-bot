@@ -28,7 +28,7 @@ export interface PlotEarning {
         ),
         ...tokenPairOneContracts.map((tp) =>
           axios.get(
-            `https://api.dexscreener.io/latest/dex/pairs/harmony/${tp.contract}`
+            `https://api.dexscreener.io/latest/dex/pairs/harmony/${tp.pairContract}`
           )
         ),
       ])
